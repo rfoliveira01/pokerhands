@@ -12,14 +12,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-
-});
-
-Route::get('/main', 'MainController@index');
-Route::post('/main/checklogin', 'MainController@checklogin');
-Route::get('main/successlogin', 'MainController@successlogin');
-Route::get('main/logout', 'MainController@logout');
+Route::get('/', ['as'=>'login', 'uses'=>'MainController@login']);
+Route::post('/check-login', 'MainController@checkLogin');
+Route::get('/logout', 'MainController@logout')->middleware('auth');
+Route::get('/hands', 'HandsController@listHands')->middleware('auth');
+Route::get('/hands/form', 'HandsController@index')->middleware('auth');
+Route::post('/hands/upload', 'HandsController@upload');
 

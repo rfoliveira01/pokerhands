@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
-    function index()
+    function login()
     {
+        if(Auth::check()){
+            return redirect('hands/');
+        }
         return view('login');
     }
 
-    function checklogin(Request $request)
+    function checkLogin(Request $request)
     {
         $this->validate($request, [
             'email' => 'required|email',
@@ -25,21 +28,16 @@ class MainController extends Controller
         );
 
         if (Auth::attempt($user_data)) {
-            return redirect('main/successlogin');
+            return redirect('hands/');
         } else {
             return back()->with('error', 'Wrong Login Details');
         }
 
     }
 
-    function successlogin()
-    {
-        return view('successlogin');
-    }
-
     function logout()
     {
         Auth::logout();
-        return redirect('main');
+        return redirect('/');
     }
 }
